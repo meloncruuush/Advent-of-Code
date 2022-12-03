@@ -19,6 +19,7 @@ with open('Day03/items.txt') as file:
     sum_p1 = 0
     sum_p2 = 0
     group = []
+
     for line in file:
         # remove the /n
         line = line[:-1]
@@ -34,7 +35,7 @@ with open('Day03/items.txt') as file:
         # find the wrong items        
         sum_p1 += alphabet.index(wrong_item(str1, str2)) + 1    
 
-        # Part 2
+        # Part 2, find the badges
         group.append(line)
         if len(group) == 3:
             sum_p2 += alphabet.index(find_badge(group)) + 1
@@ -42,5 +43,3 @@ with open('Day03/items.txt') as file:
 
     print("Answer 1: " + str(sum_p1))
     print("Answer 2: " + str(sum_p2))
-
-    # Part 2
