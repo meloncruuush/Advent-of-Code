@@ -9,7 +9,15 @@ def line_converter(line):
     replaced_line = line.replace(',' , '-')
     return [int(s) for s in replaced_line.split('-')]
 
-def check_overlap(line):
+def check_overlap(assignments):
+    if assignments[0] in range(assignments[2], assignments[3]+1):
+        return 1
+    elif assignments[1] in range(assignments[2], assignments[3]+1):
+        return 1
+    elif assignments[2] in range(assignments[0], assignments[1]+1):
+        return 1
+    elif assignments[3] in range(assignments[0], assignments[1]+1):
+        return 1
     return 0
 
 
@@ -22,3 +30,4 @@ with open('Day04/input.txt') as file:
         sum_p2 += check_overlap(assignments)
 
     print("Result 1: " + str(sum_p1))
+    print("Result 2: " + str(sum_p2))
