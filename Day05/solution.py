@@ -54,7 +54,6 @@ def remove_empty(crates):
 
 def arrange_crates(crates, moves):
     for move in moves:
-        # move 1 from 2 to 1
         n_crates = move[0]
         pos1 = move[1]-1
         pos2 = move[2]-1
@@ -64,23 +63,57 @@ def arrange_crates(crates, moves):
             n_crates -= 1
     return crates
 
+def arrange_crates_2(crates, moves):
+    crates[0]
+    crates[1]
+    
+    for move in moves:
+        n_crates = move[0]
+        pos1 = move[1]-1
+        pos2 = move[2]-1 
+
+        while n_crates > 0:
+            crates[pos2].append(crates[pos1].pop( len(crates[pos1]) - n_crates ))
+            n_crates -= 1
+    return crates
+
 
 with open('Day05/input.txt') as file:
     crates_raw = get_crates_from_file(file)
-    print_matrix("Crates row: ", crates_raw)
-
+    # print_matrix("Crates row: ", crates_raw)
     crates_rotated = rotate_crates(crates_raw)
-    print_matrix("Crates rotated: ", crates_rotated)
-
+    # print_matrix("Crates rotated: ", crates_rotated)
     crates = remove_empty(crates_rotated)
-    print_matrix("Crates without empty cells: ", crates)
+    # print_matrix("Crates without empty cells: ", crates)
 
     moves = get_moves_from_file(file)
-    print_matrix("Moves: ", moves)
+    # print_matrix("Moves: ", moves)
 
     arranged_crates = arrange_crates(crates, moves)
-    print_matrix("Arranged crates: ", arranged_crates)
+    # print_matrix("Arranged crates: ", arranged_crates)
 
     print("\nResult: ")
     for row in arranged_crates:
         print(row[len(row)-1], end='')
+    
+    # close file
+    file.close()
+
+with open('Day05/input.txt') as file:
+    crates_raw = get_crates_from_file(file)
+    # print_matrix("Crates row: ", crates_raw)
+    crates_rotated = rotate_crates(crates_raw)
+    # print_matrix("Crates rotated: ", crates_rotated)
+    crates = remove_empty(crates_rotated)
+    # print_matrix("Crates without empty cells: ", crates)
+
+    moves = get_moves_from_file(file)
+    # print_matrix("Moves: ", moves)
+
+    arranged_crates = arrange_crates_2(crates, moves)
+    # print_matrix("Arranged crates: ", arranged_crates)
+
+    print("\nResult 2: ")
+    for row in arranged_crates:
+        print(row[len(row)-1], end='')
+    
