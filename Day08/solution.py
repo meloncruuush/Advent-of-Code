@@ -53,6 +53,48 @@ def is_visible(forest, line, column):
     return False
 
 
+def scenic_score(forest, line, column):
+    score_r = 0
+    score_l = 0
+    score_u = 0
+    score_d = 0
+
+    # Right
+    j = column + 1
+    while j < len(forest[line]):
+        score_r += 1
+        if forest[line][column] <= forest[line][j]:
+            break
+        j += 1
+
+    # Left
+    j = column - 1
+    while j >= 0:
+        score_l += 1
+        if forest[line][column] <= forest[line][j]:
+            break
+        j -= 1
+
+    # Up
+    i = line - 1
+    while i >= 0:
+        score_u += 1
+        if forest[line][column] <= forest[i][column]:
+            break
+        i -= 1
+
+    # Down
+    i = line + 1
+    while i < len(forest):
+        score_d += 1
+        if forest[line][column] <= forest[i][column]:
+            break
+        i += 1
+    
+    scenic_score = score_r * score_l * score_u * score_d
+    return scenic_score
+
+
 def count_visible_trees(forest):
     visible_trees = 0
     i = 1
@@ -65,6 +107,16 @@ def count_visible_trees(forest):
         i += 1
     return visible_trees
 
+def best_scenic_score(forest):
+    higher_scenic_score = 0
+    i = 1
+    while i < len(forest) - 1:
+        j = 1
+        while j < len(forest[i]) - 1:
+            higher_scenic_score = max(higher_scenic_score, scenic_score(forest, i, j))
+            j += 1
+        i += 1
+    return higher_scenic_score
 
 # ############################## MAIN ##############################
 forest = []
@@ -80,3 +132,4 @@ with open('Day08/input.txt') as file:
 visible_trees = perimeter(forest)
 visible_trees += count_visible_trees(forest)
 print("Answer 1: ", visible_trees)
+print("Answer 2: ", best_scenic_score(forest))
