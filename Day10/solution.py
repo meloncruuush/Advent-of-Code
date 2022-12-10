@@ -13,14 +13,13 @@ def print_commands(commands):
 
 # ##### MAIN #####
 commands = read_input_file()
-#print_commands(commands)
-
+# print_commands(commands)
 cycle = 0
 X = 1
 next_cycle = 20
 signal_strenghts = 0
-for command in commands:
 
+for command in commands:
     if command[0] == "noop":
         cycle += 1
         if cycle == next_cycle:

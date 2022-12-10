@@ -1,78 +1,50 @@
-from math import sqrt
+with open("Day09/input.txt") as file:
+    lines = file.read().strip().split("\n")
 
 
-def distance(x1, y1, x2, y2):  # euclidean distance
-    return sqrt((x2 - x1)**2 + (y2 - y1)**2)
+knots = [[0, 0] for _ in range(10)]
 
 
-def get_moves():
-    with open('Day09/input.txt') as file:
-        moves = []
-        for line in file:
-            moves.append(line.strip().split(' '))
-        file.close()
-        return moves
+def touching(x1, y1, x2, y2):
+    return abs(x1 - x2) <= 1 and abs(y1 - y2) <= 1
 
 
-# ##### MAIN #####
-moves = get_moves()
-H_pos = [0, 0] 
-T_pos = [[0, 0] for i in range(10)]
-visited_pos = [[0, 0]]
-for move in moves:
-    for i in range(int(move[1])):
-        if H_pos == T_pos:  # head and tail same position
-            if move[0] == 'R':
-                H_pos[0] += 1
-            elif move[0] == 'L':
-                H_pos[0] -= 1
-            elif move[0] == 'U':
-                H_pos[1] += 1
-            elif move[0] == 'D':
-                H_pos[1] -= 1
-            continue
+def move(dx, dy):
+    global knots
+    knots[0][0] += dx
+    knots[0][1] += dy
 
-        if move[0] == 'R':
-            if distance(T_pos[0], T_pos[1], H_pos[0] + 1, H_pos[1]) < 1.5:  # tail touches head
-                H_pos[0] += 1
-                continue
-            if T_pos[1] == H_pos[1]:     # if same y
-                T_pos[0] += 1            # add to x
-            else:                        # if not same y
-                T_pos = H_pos.copy()     # diagonal movement
-            H_pos[0] += 1                # move head
+    for i in range(1, 10):
+        hx, hy = knots[i - 1]
+        tx, ty = knots[i]
 
-        elif move[0] == 'L':
-            if distance(T_pos[0], T_pos[1], H_pos[0] - 1, H_pos[1]) < 1.5:
-                H_pos[0] -= 1
-                continue
-            if T_pos[1] == H_pos[1]:
-                T_pos[0] -= 1
-            else:
-                T_pos = H_pos.copy()
-            H_pos[0] -= 1
+        if not touching(hx, hy, tx, ty):
+            sign_x = 0 if hx == tx else (hx - tx) / abs(hx - tx)
+            sign_y = 0 if hy == ty else (hy - ty) / abs(hy - ty)
 
-        elif move[0] == 'U':
-            if distance(T_pos[0], T_pos[1], H_pos[0], H_pos[1] + 1) < 1.5:
-                H_pos[1] += 1
-                continue
-            if T_pos[0] == H_pos[0]:     # if same x
-                T_pos[1] += 1            # add to y
-            else:                        # if not same x
-                T_pos = H_pos.copy()     # diagonal movement
-            H_pos[1] += 1                # move head
+            tx += sign_x
+            ty += sign_y
 
-        elif move[0] == 'D':
-            if distance(T_pos[0], T_pos[1], H_pos[0], H_pos[1] - 1) < 1.5:
-                H_pos[1] -= 1
-                continue
-            if T_pos[0] == H_pos[0]:
-                T_pos[1] -= 1
-            else:
-                T_pos = H_pos.copy()
-            H_pos[1] -= 1
+        knots[i] = [tx, ty]
 
-        if T_pos not in visited_pos:
-            visited_pos.append(T_pos.copy())
 
-print("Solution to part 1: ", len(visited_pos))
+dd = {
+    "R": [1, 0],
+    "U": [0, 1],
+    "L": [-1, 0],
+    "D": [0, -1]
+}
+
+tail_visited = set()
+tail_visited.add(tuple(knots[-1]))
+
+for line in lines:
+    op, amount = line.split(" ")
+    amount = int(amount)
+    dx, dy = dd[op]
+
+    for _ in range(amount):
+        move(dx, dy)
+        tail_visited.add(tuple(knots[-1]))
+
+print(len(tail_visited))
