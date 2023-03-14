@@ -41,7 +41,8 @@ monkeys = parse_input()
 # print_monkeys(monkeys)
 
 rounds = 0
-while rounds < 20:
+while rounds < 10000:
+    print("Round ", rounds, ":")
     for monkey in monkeys:
         while len(monkey.starting_items) > 0: 
             item_worrylvl = monkey.starting_items.pop(0)
@@ -60,8 +61,8 @@ while rounds < 20:
                     item_worrylvl = item_worrylvl * item_worrylvl
             monkey.increase_inspected()
                     
-            # Decrease worry level
-            item_worrylvl = item_worrylvl // 3
+            # Decrease worry level (only for part 1)
+            # item_worrylvl = item_worrylvl // 3
 
             # Throw item to other monkey
             if item_worrylvl % monkey.get_divisible_by() == 0:
