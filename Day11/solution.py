@@ -1,29 +1,37 @@
 from monkey import Monkey
 
 def parse_input():
+    monkeys = []
     with open("Day11/input.txt") as file:
+        for line in file:
+            monkey_n = line[7] # Monkey
 
-        line = file.readline() # Monkey
-        monkey_n = line[7]
+            line = file.readline() # Starting items
+            starting_items = [int(i) for i in line.replace(",", "").split()[2:]]
 
-        line = file.readline() # Starting items
-        # remove any commas in the line, then read the numbers from the line and put them in a list
-        starting_items = [int(i) for i in line.replace(",", "").split()[2:]]
+            line = file.readline() # Operation
+            symbol = line[23]
+            operand = line[25:] 
+            operand = operand[:-1] # remove the /n from operand
 
-        line = file.readline() # Operation
-        
+            line = file.readline() # Test
+            divisible_by = int(line[21:])
 
-        line = file.readline() # Test
-        line = file.readline() # True
-        line = file.readline() # False
-        line = file.readline() # Empty line
+            line = file.readline() # True
+            if_true = line[29]
 
-        # monkey = Monkey(monkey_n, starting_items, symbol, operand, divisible_by, if_true, if_false)
+            line = file.readline() # False
+            if_false = line[30]
+
+            line = file.readline() # Empty line
+
+            monkeys.append(Monkey(monkey_n, starting_items, symbol, operand, divisible_by, if_true, if_false))
+    return monkeys  
 
 
-
-
-
-
-
-parse_input()
+monkeys = parse_input()
+for monkey in monkeys:
+    print("\nMonkey ", monkey.monkey_n, ":")
+    print(monkey.starting_items)
+    monkey.print_operation()
+    monkey.print_test()
