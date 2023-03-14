@@ -29,9 +29,13 @@ def parse_input():
     return monkeys  
 
 
+def print_monkeys(monkeys):
+    for monkey in monkeys:
+        print("\nMonkey ", monkey.monkey_n, ":")
+        print(monkey.starting_items)
+        monkey.print_operation()
+        monkey.print_test()
+
+
 monkeys = parse_input()
-for monkey in monkeys:
-    print("\nMonkey ", monkey.monkey_n, ":")
-    print(monkey.starting_items)
-    monkey.print_operation()
-    monkey.print_test()
+print_monkeys(monkeys)
