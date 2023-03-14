@@ -7,6 +7,7 @@ class Monkey:
         self.starting_items = starting_items
         self.operation = Operation(symbol, operand)
         self.test = Test(divisible_by, when_true, when_false)
+        self.has_inspected = 0
 
     def print_operation(self):
         print(self.operation.symbol)
@@ -31,3 +32,6 @@ class Monkey:
 
     def get_when_false(self):
         return int(self.test.when_false)
+
+    def increase_inspected(self):
+        self.has_inspected += 1
