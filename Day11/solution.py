@@ -39,3 +39,32 @@ def print_monkeys(monkeys):
 
 monkeys = parse_input()
 print_monkeys(monkeys)
+
+rounds = 0
+while rounds < 20:
+    for monkey in monkeys:
+        for item_worrylvl in monkey.starting_items:
+
+            # Monkey inspects item
+            if monkey.get_operand() != "old":
+                if monkey.get_symbol() == "+":
+                    item_worrylvl = item_worrylvl + int(monkey.get_operand())
+                else:
+                    item_worrylvl = item_worrylvl * int(monkey.get_operand())
+                    
+            else:
+                if monkey.get_symbol() == "+":
+                    item_worrylvl = item_worrylvl + item_worrylvl
+                else:
+                    item_worrylvl = item_worrylvl * item_worrylvl
+
+            # Decrease worry level
+            item_worrylvl = item_worrylvl // 3
+
+            # Throw item to other monkey
+            if item_worrylvl % monkey.get_divisible_by() == 0:
+                index = monkey.get_when_true()
+                monkeys[index-1].starting_items.append(item_worrylvl)
+            else:
+                index = monkey.get_when_false()
+                monkeys[index].starting_items.append(item_worrylvl)

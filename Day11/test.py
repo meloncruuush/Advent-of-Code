@@ -1,5 +1,5 @@
 class Test:
-    def __init__(self, divisible_by, if_true, if_false):
+    def __init__(self, divisible_by, when_true, when_false):
         self.divisible_by = divisible_by
-        self.if_true = if_true
-        self.if_false = if_false
+        self.when_true = when_true
+        self.when_false = when_false
